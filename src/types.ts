@@ -218,6 +218,8 @@ export type ContextType<T extends TabName = TabName> = {
    */
   allowHeaderOverscroll?: boolean
 
+  isSlidingTopContainer: Animated.SharedValue<boolean>
+  isSnapping: Animated.SharedValue<boolean>
   minHeaderHeight: number
 }
 

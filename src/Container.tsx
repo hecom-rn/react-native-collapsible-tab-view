@@ -35,6 +35,9 @@ import {
   IndexChangeEventData,
   TabName,
 } from './types'
+import { TopContainer } from './TopContainer'
+import { HeaderContainer } from './HeaderContainer'
+import { TabBarContainer } from './TabBarContainer'
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
@@ -119,6 +122,8 @@ export const Container = React.memo(
       const oldAccScrollY: ContextType['oldAccScrollY'] = useSharedValue(0)
       const accDiffClamp: ContextType['accDiffClamp'] = useSharedValue(0)
       const scrollYCurrent: ContextType['scrollYCurrent'] = useSharedValue(0)
+      const isSnapping: ContextType['isSnapping'] = useSharedValue(false)
+      const isSlidingTopContainer = useSharedValue(false)
       const scrollY: ContextType['scrollY'] = useSharedValue(
         tabNamesArray.map(() => 0)
       )
@@ -374,6 +379,8 @@ export const Container = React.memo(
             headerTranslateY,
             width,
             allowHeaderOverscroll,
+            isSlidingTopContainer,
+            isSnapping,
           }}
         >
           <Animated.View
@@ -381,7 +388,29 @@ export const Container = React.memo(
             onLayout={onLayout}
             pointerEvents="box-none"
           >
-            <Animated.View
+            <TopContainer
+              cancelTranslation={cancelTranslation}
+              headerContainerStyle={headerContainerStyle}
+            >
+              <HeaderContainer
+                containerRef={containerRef}
+                onTabPress={onTabPress}
+                tabNamesArray={tabNamesArray}
+                tabProps={tabProps}
+                renderHeader={renderHeader}
+              />
+
+              <TabBarContainer
+                containerRef={containerRef}
+                onTabPress={onTabPress}
+                tabNamesArray={tabNamesArray}
+                tabProps={tabProps}
+                width={width}
+                renderTabBar={renderTabBar}
+              />
+            </TopContainer>
+
+            {/* <Animated.View
               pointerEvents="box-none"
               style={[
                 styles.topContainer,
@@ -422,7 +451,7 @@ export const Container = React.memo(
                     tabProps,
                   })}
               </View>
-            </Animated.View>
+            </Animated.View> */}
 
             <AnimatedPagerView
               ref={containerRef}
