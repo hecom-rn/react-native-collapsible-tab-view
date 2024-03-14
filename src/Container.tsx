@@ -259,34 +259,6 @@ export const Container = React.memo(
           : -Math.min(scrollYCurrent.value, headerScrollDistance.value)
       }, [revealHeaderOnScroll])
 
-      const stylez = useAnimatedStyle(() => {
-        return {
-          transform: [
-            {
-              translateY: headerTranslateY.value,
-            },
-          ],
-        }
-      }, [revealHeaderOnScroll])
-
-      const getHeaderHeight = React.useCallback(
-        (event: LayoutChangeEvent) => {
-          const height = event.nativeEvent.layout.height
-          if (headerHeight.value !== height) {
-            headerHeight.value = height
-          }
-        },
-        [headerHeight]
-      )
-
-      const getTabBarHeight = React.useCallback(
-        (event: LayoutChangeEvent) => {
-          const height = event.nativeEvent.layout.height
-          if (tabBarHeight.value !== height) tabBarHeight.value = height
-        },
-        [tabBarHeight]
-      )
-
       const onLayout = React.useCallback(
         (event: LayoutChangeEvent) => {
           const height = event.nativeEvent.layout.height
@@ -409,49 +381,6 @@ export const Container = React.memo(
                 renderTabBar={renderTabBar}
               />
             </TopContainer>
-
-            {/* <Animated.View
-              pointerEvents="box-none"
-              style={[
-                styles.topContainer,
-                headerContainerStyle,
-                !cancelTranslation && stylez,
-              ]}
-            >
-              <View
-                style={[styles.container, styles.headerContainer]}
-                onLayout={getHeaderHeight}
-                pointerEvents="box-none"
-              >
-                {renderHeader &&
-                  renderHeader({
-                    containerRef,
-                    index,
-                    tabNames: tabNamesArray,
-                    focusedTab,
-                    indexDecimal,
-                    onTabPress,
-                    tabProps,
-                  })}
-              </View>
-              <View
-                style={[styles.container, styles.tabBarContainer]}
-                onLayout={getTabBarHeight}
-                pointerEvents="box-none"
-              >
-                {renderTabBar &&
-                  renderTabBar({
-                    containerRef,
-                    index,
-                    tabNames: tabNamesArray,
-                    focusedTab,
-                    indexDecimal,
-                    width,
-                    onTabPress,
-                    tabProps,
-                  })}
-              </View>
-            </Animated.View> */}
 
             <AnimatedPagerView
               ref={containerRef}

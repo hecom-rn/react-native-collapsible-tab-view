@@ -1,5 +1,5 @@
 import React from 'react'
-import { PanResponder, StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -14,10 +14,9 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 
-import { IS_IOS, scrollToImpl } from './helpers'
+import { scrollToImpl } from './helpers'
 import {
   useOnScroll,
-  useScrollHandlerY,
   useSnap,
   useTabsContext,
 } from './hooks'
@@ -25,7 +24,7 @@ import { CollapsibleProps } from './types'
 
 type TabBarContainerProps = Pick<
   CollapsibleProps,
-  'headerContainerStyle' | 'cancelTranslation'
+  'headerContainerStyle' | 'cancelTranslation' | 'children'
 >
 
 export const TopContainer: React.FC<TabBarContainerProps> = ({
