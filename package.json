@@ -17,9 +17,7 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn",
-    "prepack": "bob build",
-    "docs": "ts-node ./documentation/buildDocs.ts",
-    "prepare": "bob build"
+    "docs": "ts-node ./documentation/buildDocs.ts"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -66,7 +64,6 @@
     "react": "~16.11.0",
     "react-docgen-typescript": "^1.20.5",
     "react-native": "~0.71.6",
-    "react-native-builder-bob": "^0.18.2",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-pager-view": "^5",
     "react-native-reanimated": "3.1.0",
@@ -86,12 +83,7 @@
       "optional": true
     }
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
-    }
-  },
+ 
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -117,15 +109,6 @@
     "use-deep-compare": "^1.1.0"
   },
   "packageManager": "yarn@1.22.11",
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
-  },
   "eslintIgnore": [
     "node_modules/",
     "lib/"

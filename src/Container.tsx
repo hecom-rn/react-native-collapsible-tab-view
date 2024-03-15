@@ -10,7 +10,6 @@ import Animated, {
   runOnJS,
   runOnUI,
   useAnimatedReaction,
-  useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withDelay,
@@ -418,25 +417,5 @@ export const Container = React.memo(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  topContainer: {
-    position: 'absolute',
-    zIndex: 100,
-    width: '100%',
-    backgroundColor: 'white',
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
-  },
-  tabBarContainer: {
-    zIndex: 1,
-  },
-  headerContainer: {
-    zIndex: 2,
   },
 })
