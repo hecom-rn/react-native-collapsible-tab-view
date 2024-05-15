@@ -83,6 +83,7 @@ export const Container = React.memo(
         onTabChange,
         width: customWidth,
         allowHeaderOverscroll,
+        onScrollListener,
       },
       ref
     ) => {
@@ -249,6 +250,13 @@ export const Container = React.memo(
             // sync scroll if we started with undefined header height
             resyncTabScroll()
           }
+        }
+      )
+
+      useAnimatedReaction(
+        () => scrollYCurrent.value,
+        (current, prev) => {
+          onScrollListener && runOnJS(onScrollListener)(current, contentHeights.value[index.value], headerHeight.value, tabBarHeight.value);
         }
       )
 

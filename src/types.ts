@@ -128,6 +128,13 @@ export type CollapsibleProps = {
    * @default false
    */
   allowHeaderOverscroll?: boolean
+
+  /**
+   * 滚动的监听器
+   * @param y 竖向滚动位置
+   * @returns void
+   */
+  onScrollListener?: (y: number) => void
 }
 
 export type ContextType<T extends TabName = TabName> = {
