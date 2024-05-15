@@ -64,7 +64,6 @@
     "react": "~16.11.0",
     "react-docgen-typescript": "^1.20.5",
     "react-native": "~0.71.6",
-    "react-native-gesture-handler": "~1.6.0",
     "react-native-pager-view": "^5",
     "react-native-reanimated": "3.1.0",
     "release-it": "^13.6.6",
@@ -75,6 +74,7 @@
     "@shopify/flash-list": ">=1.0.0",
     "react": "*",
     "react-native": "*",
+    "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-reanimated": ">=2.15.0"
   },
