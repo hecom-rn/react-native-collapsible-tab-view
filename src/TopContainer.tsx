@@ -15,11 +15,7 @@ import Animated, {
 } from 'react-native-reanimated'
 
 import { scrollToImpl } from './helpers'
-import {
-  useOnScroll,
-  useSnap,
-  useTabsContext,
-} from './hooks'
+import { useOnScroll, useSnap, useTabsContext } from './hooks'
 import { CollapsibleProps } from './types'
 
 type TabBarContainerProps = Pick<
@@ -95,7 +91,12 @@ export const TopContainer: React.FC<TabBarContainerProps> = ({
           // deceleration: IS_IOS ? 0.998 : 0.99,
         },
         (finished) => {
-          console.log('finished = ', finished, ', headerScrollDistance.value = ', headerScrollDistance.value)
+          console.log(
+            'finished = ',
+            finished,
+            ', headerScrollDistance.value = ',
+            headerScrollDistance.value
+          )
           isSlidingTopContainer.value = false
           isTopContainerOutOfSync.value = finished || false
         }
@@ -144,17 +145,18 @@ export const TopContainer: React.FC<TabBarContainerProps> = ({
   )
 
   return (
-    <PanGestureHandler onGestureEvent={gestureHandler}>
-      <Animated.View
-        style={[
-          styles.container,
-          headerContainerStyle,
-          !cancelTranslation && animatedStyles,
-        ]}
-      >
-        {children}
-      </Animated.View>
-    </PanGestureHandler>
+    <Animated.View
+      style={[
+        styles.container,
+        headerContainerStyle,
+        !cancelTranslation && animatedStyles,
+      ]}
+    >
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View>{children?.[0]}</Animated.View>
+      </PanGestureHandler>
+      <Animated.View>{children?.[1]}</Animated.View>
+    </Animated.View>
   )
 }
 
