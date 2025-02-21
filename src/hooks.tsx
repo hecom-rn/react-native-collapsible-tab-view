@@ -534,9 +534,17 @@ export const useScrollHandlerY = (name: TabName) => {
               (containerHeight.value || 0) +
               contentInset.value
             // make sure the y value is clamped to the scrollable size (clamps overscrolling)
-            scrollYCurrent.value = allowHeaderOverscroll
+            const tmpScrollY = allowHeaderOverscroll
               ? y
               : interpolate(y, [0, clampMax], [0, clampMax], Extrapolate.CLAMP)
+            if (
+              Math.abs(tmpScrollY) < 1 &&
+              Math.abs(scrollYCurrent.value - tmpScrollY) > 100
+            ) {
+              return
+            } else {
+              scrollYCurrent.value = tmpScrollY
+            }
           } else {
             const { y } = event.contentOffset
             scrollYCurrent.value = y
