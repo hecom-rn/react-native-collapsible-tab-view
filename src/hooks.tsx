@@ -519,6 +519,8 @@ export const useScrollHandlerY = (name: TabName) => {
     return contentHeights.value[tabIndex] || Number.MAX_VALUE
   }, [])
 
+  const receivedOnScroll = useRef<boolean>(false)
+
   const scrollHandler = useAnimatedScrollHandler(
     {
       onScroll: (event) => {
@@ -543,7 +545,11 @@ export const useScrollHandlerY = (name: TabName) => {
             ) {
               return
             } else {
-              scrollYCurrent.value = tmpScrollY
+              if (receivedOnScroll.current === false) {
+                receivedOnScroll.current = true
+              } else {
+                scrollYCurrent.value = tmpScrollY
+              }
             }
           } else {
             const { y } = event.contentOffset
