@@ -519,7 +519,7 @@ export const useScrollHandlerY = (name: TabName) => {
     return contentHeights.value[tabIndex] || Number.MAX_VALUE
   }, [])
 
-  const receivedOnScroll = useRef<boolean>(false)
+  const receivedOnScroll = useSharedValue(false)
 
   const scrollHandler = useAnimatedScrollHandler(
     {
@@ -545,8 +545,8 @@ export const useScrollHandlerY = (name: TabName) => {
             ) {
               return
             } else {
-              if (receivedOnScroll.current === false) {
-                receivedOnScroll.current = true
+              if (receivedOnScroll.value === false) {
+                receivedOnScroll.value = true
               } else {
                 scrollYCurrent.value = tmpScrollY
               }
