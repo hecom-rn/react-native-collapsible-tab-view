@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { StyleSheet } from 'react-native'
 import {
   PanGestureHandler,
+  GestureDetector,
   PanGestureHandlerGestureEvent,
+  Gesture,
+  GestureHandlerRootView,
 } from 'react-native-gesture-handler'
 import Animated, {
   useAnimatedStyle,
@@ -10,6 +13,7 @@ import Animated, {
   interpolate,
   useAnimatedGestureHandler,
   withDecay,
+  GestureHandlers,
   useAnimatedReaction,
   useSharedValue,
 } from 'react-native-reanimated'
@@ -62,28 +66,24 @@ export const TopContainer: React.FC<TabBarContainerProps> = ({
     scrollToImpl(refMap[tabNames.value[index.value]], 0, position, false)
   }
 
-  const gestureHandler = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    { startY: number }
-  >({
-    onActive: (event, ctx) => {
+  const ctx = useRef({ startY: 0 });
+  const gestureHandler = Gesture.Pan().onChange((event) => {
       if (!isSlidingTopContainer.value) {
-        ctx.startY = scrollYCurrent.value
+        ctx.current.startY = scrollYCurrent.value
         isSlidingTopContainer.value = true
         return
       }
 
       scrollYCurrent.value = interpolate(
-        -event.translationY + ctx.startY,
+        -event.translationY + ctx.current.startY,
         [0, headerScrollDistance.value],
         [0, headerScrollDistance.value],
         Extrapolate.CLAMP
       )
-    },
-    onEnd: (event, ctx) => {
-      if (!isSlidingTopContainer.value) return
+  }).onEnd((event) => {
+        if (!isSlidingTopContainer.value) return
 
-      ctx.startY = 0
+      ctx.current.startY = 0
       scrollYCurrent.value = withDecay(
         {
           velocity: -event.velocityY,
@@ -101,8 +101,7 @@ export const TopContainer: React.FC<TabBarContainerProps> = ({
           isTopContainerOutOfSync.value = finished || false
         }
       )
-    },
-  })
+  });
 
   //Keeps updating the active tab scroll as we scroll on the top container element
   useAnimatedReaction(
@@ -152,9 +151,11 @@ export const TopContainer: React.FC<TabBarContainerProps> = ({
         !cancelTranslation && animatedStyles,
       ]}
     >
-      <PanGestureHandler onGestureEvent={gestureHandler}>
+      <GestureHandlerRootView>
+      <GestureDetector gesture={gestureHandler}>
         <Animated.View>{children?.[0]}</Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
+      </GestureHandlerRootView>
       <Animated.View>{children?.[1]}</Animated.View>
     </Animated.View>
   )
