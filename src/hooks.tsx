@@ -642,6 +642,8 @@ export const useScrollHandlerY = (name: TabName) => {
         isSyncNeeded !== wasSyncNeeded &&
         focusedTab.value !== name
       ) {
+        // Skip sync if this tab hasn't been mounted yet (lazy loading)
+        if (!refMap[name]) return
         let nextPosition: number | null = null
         const focusedScrollY = scrollY.value[Math.round(indexDecimal.value)]
         const tabScrollY = scrollY.value[tabIndex]
