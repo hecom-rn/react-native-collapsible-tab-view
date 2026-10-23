@@ -428,12 +428,31 @@ export const useScrollHandlerY = (name: TabName) => {
 
   const enabled = useSharedValue(false)
 
+  const scrollTo = useScroller()
+
   const enable = useCallback(
     (toggle: boolean) => {
       'worklet'
       enabled.value = toggle
+
+      // 对齐上游 6.2.2：挂载完成启用滚动事件时补一次位置恢复。
+      // useAfterMountEffect 里的 restore 用的 ref 是 render 闭包捕获的 refMap[name]，
+      // lazy 占位 ScrollView 被真实内容替换时会指向已卸载实例导致 restore 落空；
+      // 此处在 setRef 之后执行且实时读取 refMap[name]，能保证 scrollTo 落到真实 ScrollView 上
+      if (toggle) {
+        const tabIndex = tabNames.value.findIndex((n) => n === name)
+
+        const ref = refMap[name]
+        scrollTo(
+          ref,
+          0,
+          scrollY.value[tabIndex],
+          false,
+          `[${name}] restore scroll position - enable`
+        )
+      }
     },
-    [enabled]
+    [enabled, name, refMap, scrollTo, scrollY.value, tabNames.value]
   )
 
   /**
@@ -448,8 +467,6 @@ export const useScrollHandlerY = (name: TabName) => {
     tabNames,
     name,
   ])
-
-  const scrollTo = useScroller()
 
   const scrollAnimation = useSharedValue<number | undefined>(undefined)
 
